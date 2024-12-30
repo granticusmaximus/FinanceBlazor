@@ -1,0 +1,7 @@
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.GeneratedMSBuildEditorConfig.editorconfig
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.AssemblyInfoInputs.cache
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.AssemblyInfo.cs
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.csproj.CoreCompileInputs.cache
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.MvcApplicationPartsAssemblyInfo.cache
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.RazorAssemblyInfo.cache
+/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/obj/Debug/net7.0/FinanceBlazor.RazorAssemblyInfo.cs
