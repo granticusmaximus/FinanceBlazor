@@ -1,0 +1,122 @@
+@page "/expenses"
+@using FinanceBlazor.Models
+@inject IExpenseService ExpenseService
+
+<h3>Manage Recurring Expenses</h3>
+
+<button class="btn btn-primary" @onclick="ShowAddExpenseModal">Add Expense</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Frequency</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var expense in Expenses)
+        {
+            <tr>
+                <td>@expense.Name</td>
+                <td>@expense.Amount</td>
+                <td>@expense.PaymentFrequency</td>
+                <td>@expense.Category.Name</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" @onclick="() => EditExpense(expense)">Edit</button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteExpense(expense.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (IsModalVisible)
+{
+    <div class="modal show d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@ModalTitle</h5>
+                    <button type="button" class="btn-close" @onclick="HideModal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Name" @bind="CurrentExpense.Name" />
+                    <input type="number" class="form-control mt-2" placeholder="Amount" @bind="CurrentExpense.Amount" />
+                    <select class="form-control mt-2" @bind="CurrentExpense.CategoryId">
+                        @foreach (var category in Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <select class="form-control mt-2" @bind="CurrentExpense.PaymentFrequency">
+                        @foreach (var frequency in Enum.GetValues(typeof(Frequency)))
+                        {
+                            <option value="@frequency">@frequency</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="HideModal">Cancel</button>
+                    <button class="btn btn-primary" @onclick="SaveExpense">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<RecurringExpense> Expenses = new();
+    private List<Category> Categories = new();
+    private RecurringExpense CurrentExpense = new();
+    private bool IsModalVisible = false;
+    private string ModalTitle = "Add Expense";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Expenses = (await ExpenseService.GetAllExpensesAsync()).ToList();
+        Categories = (await ExpenseService.GetCategoriesAsync()).ToList();
+    }
+
+    private void ShowAddExpenseModal()
+    {
+        CurrentExpense = new RecurringExpense();
+        ModalTitle = "Add Expense";
+        IsModalVisible = true;
+    }
+
+    private void EditExpense(RecurringExpense expense)
+    {
+        CurrentExpense = expense;
+        ModalTitle = "Edit Expense";
+        IsModalVisible = true;
+    }
+
+    private async Task SaveExpense()
+    {
+        if (CurrentExpense.Id == 0)
+        {
+            await ExpenseService.AddExpenseAsync(CurrentExpense);
+        }
+        else
+        {
+            await ExpenseService.UpdateExpenseAsync(CurrentExpense);
+        }
+
+        Expenses = (await ExpenseService.GetAllExpensesAsync()).ToList();
+        HideModal();
+    }
+
+    private async Task DeleteExpense(int id)
+    {
+        await ExpenseService.DeleteExpenseAsync(id);
+        Expenses = (await ExpenseService.GetAllExpensesAsync()).ToList();
+    }
+
+    private void HideModal()
+    {
+        IsModalVisible = false;
+    }
+}

@@ -1,0 +1,106 @@
+@page "/categories"
+@using FinanceBlazor.Models
+@using FinanceBlazor.S
+@inject IExpenseService ExpenseService
+
+<h3>Manage Categories</h3>
+
+<button class="btn btn-primary" @onclick="ShowAddCategoryModal">Add Category</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Categories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Description</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" @onclick="() => EditCategory(category)">Edit</button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteCategory(category.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Add/Edit Modal *@
+@if (IsModalVisible)
+{
+    <div class="modal show d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@ModalTitle</h5>
+                    <button type="button" class="btn-close" @onclick="HideModal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Name" @bind="CurrentCategory.Name" />
+                    <textarea class="form-control mt-2" placeholder="Description" @bind="CurrentCategory.Description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="HideModal">Cancel</button>
+                    <button class="btn btn-primary" @onclick="SaveCategory">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<Category> Categories = new();
+    private Category CurrentCategory = new();
+    private bool IsModalVisible = false;
+    private string ModalTitle = "Add Category";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = (await ExpenseService.GetCategoriesAsync()).ToList();
+    }
+
+    private void ShowAddCategoryModal()
+    {
+        CurrentCategory = new Category();
+        ModalTitle = "Add Category";
+        IsModalVisible = true;
+    }
+
+    private void EditCategory(Category category)
+    {
+        CurrentCategory = category;
+        ModalTitle = "Edit Category";
+        IsModalVisible = true;
+    }
+
+    private async Task SaveCategory()
+    {
+        if (CurrentCategory.Id == 0)
+        {
+            await ExpenseService.AddCategoryAsync(CurrentCategory);
+        }
+        else
+        {
+            await ExpenseService.UpdateCategoryAsync(CurrentCategory);
+        }
+
+        Categories = (await ExpenseService.GetCategoriesAsync()).ToList();
+        HideModal();
+    }
+
+    private async Task DeleteCategory(int id)
+    {
+        await ExpenseService.DeleteCategoryAsync(id);
+        Categories = (await ExpenseService.GetCategoriesAsync()).ToList();
+    }
+
+    private void HideModal()
+    {
+        IsModalVisible = false;
+    }
+}

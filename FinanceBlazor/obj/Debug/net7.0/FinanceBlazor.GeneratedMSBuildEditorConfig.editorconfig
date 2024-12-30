@@ -22,6 +22,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/Pages/Budget/Categories.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQnVkZ2V0L0NhdGVnb3JpZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/Pages/Budget/Expenses.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQnVkZ2V0L0V4cGVuc2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/grantwatson/Desktop/Development/CSharp/FinanceBlazor/FinanceBlazor/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

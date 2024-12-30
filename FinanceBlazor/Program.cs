@@ -13,6 +13,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite("Data Source=FinanceBlazor.db"));
 
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
